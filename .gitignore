@@ -1,0 +1,11 @@
+.svn
+Debug
+Release
+*.xml
+*.txt
+*.user
+*.ncb
+*.sdf
+*.ipch
+*.vcproj
+*.suo
