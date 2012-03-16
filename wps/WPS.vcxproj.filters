@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="wbxml2\wbxml_base64.c">
+      <Filter>Wbxml2</Filter>
+    </ClCompile>
+    <ClCompile Include="wbxml2\wbxml_buffers.c">
+      <Filter>Wbxml2</Filter>
+    </ClCompile>
+    <ClCompile Include="wbxml2\wbxml_charset.c">
+      <Filter>Wbxml2</Filter>
+    </ClCompile>
+    <ClCompile Include="wbxml2\wbxml_conv.c">
+      <Filter>Wbxml2</Filter>
+    </ClCompile>
+    <ClCompile Include="wbxml2\wbxml_elt.c">
+      <Filter>Wbxml2</Filter>
+    </ClCompile>
+    <ClCompile Include="wbxml2\wbxml_encoder.c">
+      <Filter>Wbxml2</Filter>
+    </ClCompile>
+    <ClCompile Include="wbxml2\wbxml_errors.c">
+      <Filter>Wbxml2</Filter>
+    </ClCompile>
+    <ClCompile Include="wbxml2\wbxml_lists.c">
+      <Filter>Wbxml2</Filter>
+    </ClCompile>
+    <ClCompile Include="wbxml2\wbxml_log.c">
+      <Filter>Wbxml2</Filter>
+    </ClCompile>
+    <ClCompile Include="wbxml2\wbxml_mem.c">
+      <Filter>Wbxml2</Filter>
+    </ClCompile>
+    <ClCompile Include="wbxml2\wbxml_parser.c">
+      <Filter>Wbxml2</Filter>
+    </ClCompile>
+    <ClCompile Include="wbxml2\wbxml_tables.c">
+      <Filter>Wbxml2</Filter>
+    </ClCompile>
+    <ClCompile Include="wbxml2\wbxml_tree.c">
+      <Filter>Wbxml2</Filter>
+    </ClCompile>
+    <ClCompile Include="wbxml2\wbxml_tree_clb_wbxml.c">
+      <Filter>Wbxml2</Filter>
+    </ClCompile>
+    <ClCompile Include="wbxml2\wbxml_tree_clb_xml.c">
+      <Filter>Wbxml2</Filter>
+    </ClCompile>
+    <ClCompile Include="wbxml2\wbxml_wrap_syncml.c">
+      <Filter>Wbxml2</Filter>
+    </ClCompile>
+    <ClCompile Include="Serial.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WapSender.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WapPush.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="wbxml2\wbxml.h">
+      <Filter>Wbxml2</Filter>
+    </ClInclude>
+    <ClInclude Include="wbxml2\wbxml_wrap_syncml.h">
+      <Filter>Wbxml2</Filter>
+    </ClInclude>
+    <ClInclude Include="wbxml2\wbxml_base64.h">
+      <Filter>Wbxml2</Filter>
+    </ClInclude>
+    <ClInclude Include="wbxml2\wbxml_buffers.h">
+      <Filter>Wbxml2</Filter>
+    </ClInclude>
+    <ClInclude Include="wbxml2\wbxml_charset.h">
+      <Filter>Wbxml2</Filter>
+    </ClInclude>
+    <ClInclude Include="wbxml2\wbxml_conv.h">
+      <Filter>Wbxml2</Filter>
+    </ClInclude>
+    <ClInclude Include="wbxml2\wbxml_elt.h">
+      <Filter>Wbxml2</Filter>
+    </ClInclude>
+    <ClInclude Include="wbxml2\wbxml_encoder.h">
+      <Filter>Wbxml2</Filter>
+    </ClInclude>
+    <ClInclude Include="wbxml2\wbxml_errors.h">
+      <Filter>Wbxml2</Filter>
+    </ClInclude>
+    <ClInclude Include="wbxml2\wbxml_handlers.h">
+      <Filter>Wbxml2</Filter>
+    </ClInclude>
+    <ClInclude Include="wbxml2\wbxml_lists.h">
+      <Filter>Wbxml2</Filter>
+    </ClInclude>
+    <ClInclude Include="wbxml2\wbxml_log.h">
+      <Filter>Wbxml2</Filter>
+    </ClInclude>
+    <ClInclude Include="wbxml2\wbxml_mem.h">
+      <Filter>Wbxml2</Filter>
+    </ClInclude>
+    <ClInclude Include="wbxml2\wbxml_parser.h">
+      <Filter>Wbxml2</Filter>
+    </ClInclude>
+    <ClInclude Include="wbxml2\wbxml_tables.h">
+      <Filter>Wbxml2</Filter>
+    </ClInclude>
+    <ClInclude Include="wbxml2\wbxml_tree.h">
+      <Filter>Wbxml2</Filter>
+    </ClInclude>
+    <ClInclude Include="wbxml2\wbxml_tree_clb_wbxml.h">
+      <Filter>Wbxml2</Filter>
+    </ClInclude>
+    <ClInclude Include="wbxml2\wbxml_tree_clb_xml.h">
+      <Filter>Wbxml2</Filter>
+    </ClInclude>
+    <ClInclude Include="wbxml2\expat\expat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Serial.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WapPush.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Wbxml2">
+      <UniqueIdentifier>{43b95984-4505-4e54-a875-673ec529b41b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{bed36d3f-f331-4c08-8eb7-8fae14c0a88b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{c4e14cb3-f5ed-46b4-a3bb-b42a7ae0a2b6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
