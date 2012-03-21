@@ -13,6 +13,7 @@
 #define MODEM_ERROR 7
 #define NETWORK_ERROR 8
 #define MODEM_NOT_FOUND_ERROR 9
+#define MODEM_NOT_ATTACHED_ERROR 10
 
 WapPush::WapPush() : m_bCOMOpen(FALSE), m_pcWbXml(NULL), m_pcAsciiXml(NULL), m_bStandardSms(FALSE) {
 	ZeroMemory(cBCDNumber, sizeof(cBCDNumber));
@@ -54,7 +55,7 @@ BOOL WapPush::AutoDiscover() {
 			return TRUE;
 		}
 
-		wprintf(L"[DEBUG] Unsuitable modem found\n");
+		wprintf(L"[DEBUG] Modem found is not suitable for this message category\n");
 		Close();
 	}
 
@@ -342,6 +343,27 @@ BOOL WapPush::SendMessage(PWCHAR pwPort, PWCHAR pwPIN, PWCHAR pwNumber, PWCHAR p
 
 	if (SetService(pwService) == FALSE)
 		return SERVICE_ERROR;
+
+	// Attach, just in case
+	SendCommand("AT+CGATT=1\r");
+
+	string resp = SendCommandAndGet("AT+CGATT?\r");
+
+	// If we are not attached, return error
+	if (resp.find("0") != string::npos) {
+		wprintf(L"[WARNING] Modem is not attached to GPRS network\n");
+		wprintf(L"[NOTICE] Trying to attach to the network...\n");
+		Sleep(3000);
+
+		resp = SendCommandAndGet("AT+CGATT?\r");
+
+		if (resp.find("0") != string::npos) {
+			wprintf(L"[ERROR] Giving up, modem is not attached to GRPS network\n");
+			return MODEM_NOT_ATTACHED_ERROR;
+		}
+
+		wprintf(L"[NOTICE] Interface now ready\n");
+	}
 
 	if (this->m_bStandardSms == FALSE) {
 		if (SetPriority(pwPriority) == FALSE)
