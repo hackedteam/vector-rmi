@@ -46,7 +46,7 @@ BOOL Serial::Open(PWCHAR pwPort) {
 
 	if (hSerial == INVALID_HANDLE_VALUE) {
 		if (GetLastError() == ERROR_FILE_NOT_FOUND) {
-			wprintf(L"[ERROR] Port %s doesn't exist (try to restart GSM modem)\n", pwPort);
+			//wprintf(L"[ERROR] Port %s doesn't exist (try to restart GSM modem)\n", pwPort);
 			return FALSE;
 		}
 

@@ -69,6 +69,9 @@ public:
 
 	BOOL CheckCOM(PWCHAR pwPort);
 
+	// Return a COM port number on which a suitable GSM modem is running
+	INT GetAutoDiscovered();
+
 private:
 	// Try to automatically recognize the GSM modem
 	BOOL AutoDiscover();

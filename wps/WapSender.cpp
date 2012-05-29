@@ -31,7 +31,8 @@ void usage(WCHAR *argv) {
 	wprintf(L"\t-q\t\tQuery: check modem, use with -p and -c (if needed)\n\n");
 	wprintf(L"\t-z\t\tCOM Check: check COM Port status, use with -p\n\n");
 	wprintf(L"\t-x <XML>\tA valid XML Message\n");
-	wprintf(L"\nNote: -x can only be used with -c, -p and -n");
+	wprintf(L"\t\t\tNote: -x can only be used with -c, -p and -n\n\n");
+	wprintf(L"\t-y\t\tReturns autodiscovered port\n");
 #endif
 }
 
@@ -164,6 +165,21 @@ int wmain(int argc, WCHAR* argv[]) {
 
 				break;
 
+			case 'y': {
+				LocalFree(ppwCommandLine);
+
+				INT port = wapObj.GetAutoDiscovered();
+
+				if (port == -1) {
+					wprintf(L"No suitable GSM modem has been found on any COM port\n");
+				} else {
+					wprintf(L"A suitable modem is running on port: COM%d\n", port);
+				}
+
+				return 0;
+			}
+			
+
 			default:
 #ifdef _DEBUG
 				wprintf(L"[ERROR] Unknown parameter: \"-%c\"\n", ppwCommandLine[i][1]);
@@ -197,7 +213,6 @@ int wmain(int argc, WCHAR* argv[]) {
 
 	// Start dealing with GSM modem
 	iRet = wapObj.SendMessage(pwPort, pwPin, pwNumber, pwText, pwService, pwPriority, pwLink, pwDate);
-
 /*
 	if (wapObj.CheckModem() == FALSE) {
 		wprintf(L"[ERROR] Modem is not able to send WAP Push messages\n");

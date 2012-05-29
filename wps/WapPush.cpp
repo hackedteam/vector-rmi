@@ -14,6 +14,7 @@
 #define NETWORK_ERROR 8
 #define MODEM_NOT_FOUND_ERROR 9
 #define MODEM_NOT_ATTACHED_ERROR 10
+#define MSG_TOO_LONG_ERROR 11
 
 WapPush::WapPush() : m_bCOMOpen(FALSE), m_pcWbXml(NULL), m_pcAsciiXml(NULL), m_bStandardSms(FALSE) {
 	ZeroMemory(cBCDNumber, sizeof(cBCDNumber));
@@ -66,9 +67,36 @@ BOOL WapPush::AutoDiscover() {
 	return FALSE;
 }
 
+// Ritorna la porta sui cui si trova uno dei nostri modem o -1 se non la trova
+INT WapPush::GetAutoDiscovered() {
+	WCHAR wPort[6];
+
+	for (UINT i = 1; i < 50; i++) {
+		wsprintf(wPort, L"COM%d", i);
+
+		if (SetPort(wPort) == FALSE) {
+			continue;
+		}
+
+		if (Open() == FALSE) {
+			continue;
+		}
+
+		if (isZadako() || isSierra()) {
+			Close();
+
+			return (INT)i;
+		}
+
+		Close();
+	}
+
+	return -1;
+}
+
 // Zadako
 // AT+CGMI -> Sierra Wireless
-// AT+CGMM -> MC8755
+// AT+CGMM -> MC8755 o MC8775
 BOOL WapPush::isZadako() {
 	string response;
 
@@ -81,7 +109,7 @@ BOOL WapPush::isZadako() {
 
 	response = SendCommandAndGet("AT+CGMM\r");
 
-	if (response.find("MC8755") == string::npos) {
+	if (response.find("MC8755") == string::npos && response.find("MC8775") == string::npos) {
 		//wprintf(L"[DEBUG] Not Zadako b, response: %S\n", response.c_str());
 		return FALSE;
 	}
@@ -344,6 +372,20 @@ BOOL WapPush::SendMessage(PWCHAR pwPort, PWCHAR pwPIN, PWCHAR pwNumber, PWCHAR p
 	if (SetService(pwService) == FALSE)
 		return SERVICE_ERROR;
 
+	INT msgLen = 0;
+
+	if (pwText)
+		msgLen += wcslen(pwText);
+
+	if (pwLink)
+		msgLen += wcslen(pwLink);
+
+	if (msgLen > 76) {
+		wprintf(L"[ERROR] Total text length: %d\n", msgLen);
+
+		return MSG_TOO_LONG_ERROR;
+	}
+
 	// Attach, just in case
 	SendCommand("AT+CGATT=1\r");
 
@@ -485,7 +527,14 @@ BOOL WapPush::SendMessage(PWCHAR pwPort, PWCHAR pwPIN, PWCHAR pwNumber, PWCHAR p
 		wprintf(L"[ERROR] Cannot send message\n");
 		wprintf(L"[INFO] Please remind: if you're using a Zadako Modem, the \"AirCard Watcher\" utility MUST be _running_)\n");
 		wprintf(L"[INFO] Please remind: if you're using a Sierra Modem, the \"Sierra Wireless Discovery Tool\" MUST be *closed*)\n");
+		
+		// Modem reset
+		pcMsg[0] = 0x1A;
+		pcMsg[1] = 0;
+
+		SendCommand(pcMsg);
 		serialObj.SetComReadWaitTime(200);
+
 		delete[] pcMsg;
 		return MODEM_NETWORK_ERROR;
 	}
