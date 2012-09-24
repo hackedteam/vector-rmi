@@ -117,4 +117,5 @@ private:
 
 	BOOL isZadako();
 	BOOL isSierra();
+	BOOL isUnknownButValid();
 };

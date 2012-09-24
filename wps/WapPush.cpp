@@ -33,7 +33,7 @@ WapPush::~WapPush() {
 BOOL WapPush::AutoDiscover() {
 	WCHAR wPort[6];
 
-	for (UINT i = 1; i < 50; i++) {
+	for (UINT i = 1; i < 30; i++) {
 		wsprintf(wPort, L"COM%d", i);
 
 		//wprintf(L"[DEBUG] checking port: COM%d\n", i);
@@ -48,7 +48,7 @@ BOOL WapPush::AutoDiscover() {
 			continue;
 		}
 
-		if (isZadako() || isSierra()) {
+		if (isZadako() || isSierra() || isUnknownButValid()) {
 			Close();
 			SetPort(wPort);
 
@@ -82,7 +82,7 @@ INT WapPush::GetAutoDiscovered() {
 			continue;
 		}
 
-		if (isZadako() || isSierra()) {
+		if (isZadako() || isSierra() || isUnknownButValid()) {
 			Close();
 
 			return (INT)i;
@@ -97,10 +97,14 @@ INT WapPush::GetAutoDiscovered() {
 // Zadako
 // AT+CGMI -> Sierra Wireless
 // AT+CGMM -> MC8755 o MC8775
+// MC8790 -> Non di HT ma usato da CNI
 BOOL WapPush::isZadako() {
 	string response;
 
 	response = SendCommandAndGet("AT+CGMI\r");
+
+	// REMOVE
+	wprintf(L"[DEBUG] Manufacturer: %S\n", response.c_str());
 
 	if (response.find("Sierra Wireless") == string::npos) {
 		//wprintf(L"[DEBUG] Not Zadako a, response: %S\n", response.c_str());
@@ -109,7 +113,42 @@ BOOL WapPush::isZadako() {
 
 	response = SendCommandAndGet("AT+CGMM\r");
 
-	if (response.find("MC8755") == string::npos && response.find("MC8775") == string::npos) {
+	// REMOVE
+	wprintf(L"[DEBUG] Chipset: %S\n", response.c_str());
+
+	if (response.find("MC8755") == string::npos && response.find("MC8775") == string::npos && response.find("MC8790") == string::npos) {
+		//wprintf(L"[DEBUG] Not Zadako b, response: %S\n", response.c_str());
+		return FALSE;
+	}
+
+	return TRUE;
+}
+
+// Unknown model
+// AT+CGMI -> ZTE INCORPORATED
+// AT+CGMM -> MF626
+// MF626 -> Non di HT ma usato da UZC
+BOOL WapPush::isUnknownButValid() {
+	return FALSE;
+
+	string response;
+
+	response = SendCommandAndGet("AT+CGMI\r");
+
+	// REMOVE
+	wprintf(L"[DEBUG] Manufacturer: %S\n", response.c_str());
+
+	if (response.find("ZTE INCORPORATED") == string::npos) {
+		//wprintf(L"[DEBUG] Not Zadako a, response: %S\n", response.c_str());
+		return FALSE;
+	}
+
+	response = SendCommandAndGet("AT+CGMM\r");
+
+	// REMOVE
+	wprintf(L"[DEBUG] Chipset: %S\n", response.c_str());
+
+	if (response.find("MF626") == string::npos) {
 		//wprintf(L"[DEBUG] Not Zadako b, response: %S\n", response.c_str());
 		return FALSE;
 	}
@@ -125,12 +164,18 @@ BOOL WapPush::isSierra() {
 
 	response = SendCommandAndGet("AT+CGMI\r");
 
+	// REMOVE
+	wprintf(L"[DEBUG] Manufacturer: %S\n", response.c_str());
+
 	if (response.find("WAVECOM") == string::npos) {
 		//wprintf(L"[DEBUG] Not Sierra a, response: %S\n", response.c_str());
 		return FALSE;
 	}
 
 	response = SendCommandAndGet("AT+CGMR\r");
+
+	// REMOVE
+	wprintf(L"[DEBUG] Chipset: %S\n", response.c_str());
 
 	if (response.find("FXT001") == string::npos && response.find("FXT003") == string::npos) {
 		//wprintf(L"[DEBUG] Not Sierra b, response: %S\n", response.c_str());
