@@ -87,7 +87,7 @@ INT WapPush::GetAutoDiscovered() {
 
 			return (INT)i;
 		}
-
+		il
 		Close();
 	}
 

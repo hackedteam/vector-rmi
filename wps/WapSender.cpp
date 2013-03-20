@@ -17,7 +17,7 @@ void usage(WCHAR *argv) {
 	wprintf(L"\t-n <number>\tPhone number, in international format without \"+\"\n");
 	wprintf(L"\t\t\t(e.g.: \"341234567890\")\n\n");
 	wprintf(L"\t-l <link>\tHTTP link to the target\n");
-	wprintf(L"\t\t\t(e.g.: http:\\\\www.google.com\\file.txt)\n\n");
+	wprintf(L"\t\t\t(e.g.: http://www.google.com/file.txt)\n\n");
 	wprintf(L"\t-t <text>\tText to show in the message\n");
 	wprintf(L"\t\t\t(e.g.: \"This is a test\") (optional)\n\n");
 	wprintf(L"\t-s <service>\tService Type: \"sl\" (service loading) or\n");
